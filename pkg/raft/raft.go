@@ -195,7 +195,7 @@ func (r *Raft) handleRequestVote(req RequestVoteRequest) RequestVoteResponse {
 	lastLogIndex := r.log.getLastIndex()
 	lastLogTerm := r.log.getLastTerm()
 	
-	logUpToDate := req.LastLogTerm > lastLogTerm || (req.LastLogTerm == lastLogTerm && req.LastLogIndex >= lastLogIndex)
+	logUpToDate := LogUpToDate(req.LastLogTerm, req.LastLogIndex, lastLogTerm, lastLogIndex)
 	
 	if (r.votedFor == "" || r.votedFor == req.CandidateId) && logUpToDate {
 		resp.VoteGranted = true
